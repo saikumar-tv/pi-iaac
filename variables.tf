@@ -29,3 +29,30 @@ variable "subscription_id" {
   description = "Azure Subscription ID"
   type        = string
 }
+
+variable "log_analytics_workspace_name" {
+  description = "Name of the Log Analytics Workspace"
+  type        = string
+  default     = "pi-aks-log-workspace"
+}
+
+variable "aks_disk_encryption_set_id" {
+  description = "The ID of the Disk Encryption Set to use for AKS OS and Data Disks."
+  type        = string
+  default     = ""
+}
+
+variable "key_vault_id" {
+  description = "The ID of the Key Vault to use for Disk Encryption Set."
+  type        = string
+}
+
+variable "key_vault_key_id" {
+  description = "The ID of the Key Vault Key to use for Disk Encryption Set."
+  type        = string
+}
+
+variable "tenant_id" {
+  description = "The Azure Tenant ID."
+  type        = string
+}

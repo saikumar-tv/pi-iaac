@@ -16,6 +16,13 @@ resource "azurerm_kubernetes_cluster" "aks-cluster" {
   dns_prefix            = "${var.resource_group_name}-cluster"           
   kubernetes_version    =  data.azurerm_kubernetes_service_versions.current.latest_version
   node_resource_group = "${var.resource_group_name}-nrg"
+  sku_tier              = "Standard"
+  private_cluster_enabled = true
+  private_cluster_public_fqdn_enabled = true
+  local_account_disabled = true
+  automatic_channel_upgrade = "stable"
+  # private_dns_zone_id = null # Replace with actual private DNS zone ID if needed
+  azure_policy_enabled = true
 
   identity {
     type = "SystemAssigned"
@@ -24,12 +31,15 @@ resource "azurerm_kubernetes_cluster" "aks-cluster" {
   default_node_pool {
     name       = "defaultpool"
     vm_size    = "Standard_D2s_v3"
+    mode       = "System"
 
-    auto_scaling_enabled = true
-    max_count            = 3
-    min_count            = 1
     os_disk_size_gb      = 30
+    os_disk_type          = "Ephemeral"
+    enable_host_encryption = true
+    disk_encryption_set_id = var.aks_disk_encryption_set_id
     type                 = "VirtualMachineScaleSets"
+    max_pods             = 50
+    node_taints = ["CriticalAddonsOnly=true:NoSchedule"]
     node_labels = {
       "nodepool-type"    = "system"
       "environment"      = "staging"
@@ -54,14 +64,19 @@ resource "azurerm_kubernetes_cluster" "aks-cluster" {
 
     network_profile {
 
-        network_plugin = "azure"
-
-        load_balancer_sku = "standard"
-
+            network_plugin = "azure"
+        
+            load_balancer_sku = "standard"
+        
+            network_policy = "azure"
     }
 
   key_vault_secrets_provider {
     secret_rotation_enabled = true
+  }
+
+  oms_agent {
+    log_analytics_workspace_id = var.log_analytics_workspace_id
   }
 
   
@@ -85,7 +100,11 @@ resource "azurerm_kubernetes_cluster_node_pool" "monitoring" {
   vm_size               = "Standard_D2s_v3"
   node_count            = 1
   os_disk_size_gb       = 30
+  os_disk_type           = "Ephemeral"
   os_type               = "Linux"
+  enable_host_encryption = true
+  disk_encryption_set_id = var.aks_disk_encryption_set_id
+  max_pods              = 50
 
   lifecycle {
     ignore_changes = [
@@ -93,4 +112,3 @@ resource "azurerm_kubernetes_cluster_node_pool" "monitoring" {
     ]
   }
 }
-
