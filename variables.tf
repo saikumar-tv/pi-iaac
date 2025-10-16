@@ -24,3 +24,8 @@ variable "dev_users" {
   type        = list(string)
   default     = ["dev-user-1", "dev-user-2"]
 }
+
+variable "subscription_id" {
+  description = "Azure Subscription ID"
+  type        = string
+}
