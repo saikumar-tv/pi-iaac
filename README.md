@@ -103,6 +103,3 @@ This project is structured to logically separate concerns:
 
 *   **`modules/aks/`**:
     *   This directory contains a reusable Terraform module specifically for deploying the AKS cluster. It encapsulates the details of AKS creation, making the main configuration cleaner. It likely contains its own `main.tf`, `variables.tf`, and `output.tf` to manage the AKS cluster's resources.
-
-*   **`modules/k8s/`**:
-    *   This directory is currently empty but is likely intended for future Kubernetes-specific deployments or configurations that might be managed as a separate module.
