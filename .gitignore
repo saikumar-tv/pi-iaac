@@ -1,0 +1,34 @@
+# --- Terraform directories ---
+.terraform/
+.terraform.lock.hcl
+
+# --- Terraform state files ---
+terraform.tfstate
+terraform.tfstate.*
+terraform.tfstate.backup
+
+# --- Local environment & secrets ---
+*.tfvars
+*.tfvars.json
+*.backup
+kube_config
+
+# --- Editor & OS files ---
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# --- Module & provider caches ---
+crash.log
+crash.*
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# --- Ignore any temp or generated files ---
+*.bak
+*.swp
