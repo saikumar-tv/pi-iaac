@@ -12,6 +12,7 @@ terraform.tfstate.backup
 *.tfvars.json
 *.backup
 kube_config
+kubeconfig.yaml
 
 # --- Editor & OS files ---
 *.log

@@ -60,6 +60,10 @@ resource "azurerm_kubernetes_cluster" "aks-cluster" {
 
     }
 
+  key_vault_secrets_provider {
+    secret_rotation_enabled = true
+  }
+
   
 
     lifecycle {
