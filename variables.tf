@@ -1,16 +1,16 @@
 variable "rgname" {
     type = string
-    default = ""
+    default = "PI-AKS-rg"
   
 }
 variable "location" {
     type = string
-    default = ""
+    default = "Central India"
   
 }
 variable "cluster-name" {
     type = string
-    default = ""
+    default = "PI-aks-cluster"
 }
 
 variable "admin_users" {

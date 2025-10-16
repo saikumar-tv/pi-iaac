@@ -52,16 +52,26 @@ resource "azurerm_kubernetes_cluster" "aks-cluster" {
     
   }
 
-  provisioner "local-exec" { # Create "myKey.pem" to your computer!!
-    command = "echo '${tls_private_key.pk.private_key_pem}' > myKey.pem"
-  }
+    network_profile {
 
-  network_profile {
-      network_plugin = "azure"
-      load_balancer_sku = "standard"
-  }
+        network_plugin = "azure"
+
+        load_balancer_sku = "standard"
+
+    }
+
   
-      
+
+    lifecycle {
+
+      ignore_changes = [
+
+        default_node_pool[0].upgrade_settings,
+
+      ]
+
+    }
+
   }
 
 
@@ -72,5 +82,11 @@ resource "azurerm_kubernetes_cluster_node_pool" "monitoring" {
   node_count            = 1
   os_disk_size_gb       = 30
   os_type               = "Linux"
+
+  lifecycle {
+    ignore_changes = [
+      upgrade_settings,
+    ]
+  }
 }
 
